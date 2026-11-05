@@ -13,32 +13,37 @@
 
 ## Установка и запуск
 
-Нужен Python 3.9+ (проверено на 3.12) и [Ollama](https://ollama.com/). Сторонних Python-библиотек нет, `pip install` не требуется. Установите и запустите Ollama, затем загрузите модель:
+Понадобятся Git, Python 3.9+ (проверено на 3.12) и [Ollama](https://ollama.com/).
 
-```sh
-ollama pull qwen3:4b-instruct
-```
+1. Скачайте проект и перейдите в его папку.
 
-Из папки проекта последовательно выполните:
+   ```sh
+   git clone https://github.com/an000nim/ai-product-card-assistant.git
+   cd ai-product-card-assistant
+   ```
 
-```sh
-python3 app.py examples/trm151.json > result-trm151.json
-python3 app.py examples/dts014.json > result-dts014.json
-```
+2. Откройте приложение Ollama. Если Ollama установлена только как консольная команда, запустите `ollama serve` в отдельном терминале. Скачайте модель.
 
-Преобразуйте сохранённый результат в удобную карточку без повторного вызова модели:
+   ```sh
+   ollama pull qwen3:4b-instruct
+   ```
+
+3. Сгенерируйте карточки. Результаты появятся в папке проекта.
+
+   ```sh
+   python3 app.py examples/trm151.json > result-trm151.json
+   python3 app.py examples/dts014.json > result-dts014.json
+   ```
+
+Для локального запуска достаточно стандартной библиотеки Python. После загрузки модели генерация работает без интернета. На CPU обработка одного товара может занять несколько минут.
+
+Преобразуйте JSON в Markdown этой командой. Чтобы попробовать преобразование сразу после скачивания проекта, используйте готовый файл `examples/results/trm151.json` вместо `result-trm151.json`.
 
 ```sh
 python3 render_result.py result-trm151.json > result-trm151.md
 ```
 
-Или сразу получите Markdown при новой генерации:
-
-```sh
-python3 app.py examples/trm151.json --format markdown > result-trm151.md
-```
-
-Для сохранения полного журнала проверки предпочтителен первый вариант: JSON, затем Markdown. Локальная генерация бесплатна в смысле отсутствия платы за API, после загрузки модели интернет не нужен. На CPU каждый товар может обрабатываться несколько минут. На машине с небольшим объёмом памяти запускайте товары последовательно.
+Чтобы при генерации получить сразу Markdown, добавьте `--format markdown`. Полный журнал проверки сохраняется в формате JSON.
 
 ## Формат входа
 
